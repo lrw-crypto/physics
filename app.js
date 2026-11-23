@@ -3,14 +3,13 @@ import { syncOrigin } from './config.js';
 const app = document.querySelector('#app');
 const nav = document.querySelector('#nav');
 const letters = 'ABCDE';
-const types = { c: '單選題', f: '填充題', w: '問答題' };
+const types = { c: '單選題', f: '填充題', w: '非選題' };
 const sources = {
   doc: '補充試題', book: '教師本第 1 章', guide: '教師本導覽',
   past: '歷屆試題', quiz: '補充測驗卷第 1 回'
 };
 const publisherSources = {
-  example: '範例練習', exercise: '課後習題', past: sources.past,
-  quiz: sources.quiz, doc: sources.doc, book: sources.book
+  example: '範例練習', exercise: '課後習題', past: sources.past, quiz: sources.quiz, doc: sources.doc
 };
 const escaped = value => String(value ?? '').replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -189,10 +188,10 @@ function matchesSource(question, source) {
   return (question.publisherRefs ?? []).some(reference => reference.category === category);
 }
 function availableSources(chapter) {
-  if (state.publisherChapters[chapter]) return publisherSources;
   const prefix = chapter + '-';
-  return Object.fromEntries(Object.entries(sources).filter(([key]) =>
-    state.bank.some(q => q.source === key && q.unit.startsWith(prefix))));
+  const labels = state.publisherChapters[chapter] ? publisherSources : sources;
+  return Object.fromEntries(Object.entries(labels).filter(([key]) =>
+    state.bank.some(q => matchesSource(q, key) && q.unit.startsWith(prefix))));
 }
 function filterQuestions() {
   return state.bank.filter(q => state.selected.has(q.unit) &&
@@ -218,7 +217,7 @@ function unitsView(focus) {
     <section class="panel" aria-labelledby="chapter-title">
       <label class="field mobile-chapter">課本章節<select id="mobile-chapter">${state.chapters.map(c => option(c.id, `第 ${c.id} 章　${c.name}`, chapter.id)).join('')}</select></label>
       <div class="section-head"><div><div class="tag">第 ${chapter.id} 章</div><h2 id="chapter-title">${escaped(chapter.name)}</h2>
-        ${publisher ? `<p class="count-line">${escaped(publisher.name)} 原始紀錄 ${publisher.references} 筆 · 去重後 ${chapterQs.length} 題</p>` : ''}</div>
+        ${publisher?.exact ? `<p class="count-line">${escaped(publisher.name)} 原題 ${publisher.references} 題</p>` : ''}</div>
       <button type="button" class="btn" data-action="toggle-sections">${chapter.sections.every(s => state.selected.has(s.id)) ? '取消全選' : '全選本章'}</button></div>
       <div class="subrows">${chapter.sections.map(s => `<label class="subrow"><input type="checkbox" name="section" value="${s.id}" ${state.selected.has(s.id) ? 'checked' : ''}><span><strong>${s.id}</strong>　${escaped(s.name)}</span><span class="meta">${chapterQs.filter(q => q.unit === s.id).length} 題</span></label>`).join('')}</div>
       <div class="filter-grid">
