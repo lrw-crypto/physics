@@ -17,6 +17,7 @@ const store = (key, value, area = localStorage) => {
 };
 const state = {
   bank: [], chapters: [], selected: new Set(), wrongSelected: new Set(),
+  questionAliases: new Map(),
   chapter: '1', source: '', type: '', order: 'original', count: 'all', wrongChapter: '',
   account: read('account', null, sessionStorage), loginMode: 'login',
   records: {}, run: null, status: '', sync: null
@@ -51,7 +52,7 @@ async function api(path, { body, token } = {}) {
   return data;
 }
 function tally(records, attempt) {
-  const key = attempt.questionId;
+  const key = state.questionAliases.get(attempt.questionId) ?? attempt.questionId;
   const entry = records[key] || { correct: 0, wrong: 0 };
   entry[attempt.correct ? 'correct' : 'wrong'] += 1;
   entry.updated = Math.floor(Date.now() / 1000);
@@ -59,7 +60,17 @@ function tally(records, attempt) {
 }
 function loadLocal() {
   const name = state.account?.name || '@guest';
-  state.records = { ...read(recordsKey(name), {}) };
+  const records = Object.create(null);
+  for (const [questionId, entry] of Object.entries(read(recordsKey(name), {}))) {
+    const key = state.questionAliases.get(questionId) ?? questionId;
+    const existing = records[key] ?? { correct: 0, wrong: 0, updated: 0 };
+    records[key] = {
+      correct: existing.correct + entry.correct,
+      wrong: existing.wrong + entry.wrong,
+      updated: Math.max(existing.updated, entry.updated ?? 0)
+    };
+  }
+  state.records = records;
   if (state.account) pending(name).forEach(a => tally(state.records, a));
 }
 function syncBadge(message) {
@@ -693,9 +704,10 @@ setInterval(() => {
 try {
   const response = await fetch('./questions.json');
   if (!response.ok) throw new Error('bank');
-  const { questions, chapters } = await response.json();
+  const { questions, chapters, questionAliases } = await response.json();
   state.bank = questions;
   state.chapters = chapters;
+  state.questionAliases = new Map(Object.entries(questionAliases ?? {}));
   state.selected = new Set(chapters[0].sections.map(section => section.id));
   loadLocal();
   render();
