@@ -6,7 +6,7 @@ const letters = 'ABCDE';
 const types = { c: '單選題', f: '填充題', w: '非選題' };
 const sources = {
   doc: '補充試題', book: '教師本第 1 章', guide: '教師本導覽',
-  past: '歷屆試題', quiz: '補充測驗卷第 1 回'
+  past: '歷屆試題', quiz: '補充測驗卷'
 };
 const publisherSources = {
   example: '範例練習', exercise: '課後習題', past: sources.past, quiz: sources.quiz, doc: sources.doc
@@ -22,7 +22,7 @@ const store = (key, value, area = localStorage) => {
   catch { return false; }
 };
 const state = {
-  bank: [], chapters: [], selected: new Set(), wrongSelected: new Set(),
+  bank: [], archivedQuestions: [], chapters: [], selected: new Set(), wrongSelected: new Set(),
   questionAliases: new Map(), publisherChapters: {},
   chapter: '1', source: '', type: '', order: 'original', count: 'all', wrongChapter: '',
   account: read('account', null, sessionStorage), loginMode: 'login',
@@ -34,7 +34,7 @@ const pending = name => read(pendingKey(name), []);
 const current = () => location.hash.slice(1) || 'units';
 const bySection = id => state.chapters.flatMap(c => c.sections).find(s => s.id === id);
 const sectionLabel = id => id + ' ' + bySection(id)?.name;
-const wrong = () => state.bank.filter(q => (state.records[q.id]?.wrong || 0) > 0);
+const wrong = () => [...state.bank, ...state.archivedQuestions].filter(q => (state.records[q.id]?.wrong || 0) > 0);
 const recordCount = () => Object.values(state.records).reduce((totals, item) =>
   ({ right: totals.right + item.correct, wrong: totals.wrong + item.wrong }), { right: 0, wrong: 0 });
 const humanError = error => ({
@@ -166,7 +166,7 @@ function math(source) {
   catch { return escaped(source); }
 }
 function rich(value) {
-  return String(value ?? '').split(/(⟪[\s\S]*?⟫|\{\{(?:img:[^{}]+|blank:\d+)\}\}|⟦[_^][^⟧]+⟧)/g).map(chunk => {
+  return String(value ?? '').split(/(⟪[\s\S]*?⟫|\{\{(?:img:[^{}]+|blank:\d+)\}\}|⟦[_^!][^⟧]+⟧)/g).map(chunk => {
     if (chunk.startsWith('⟪')) return math(chunk.slice(1, -1));
     if (chunk.startsWith('{{img:')) {
       const img = chunk.slice(6, -2);
@@ -176,7 +176,7 @@ function rich(value) {
       return `<span class="blank" aria-label="第 ${escaped(chunk.slice(8, -2))} 格">(${escaped(chunk.slice(8, -2))})</span>`;
     }
     if (chunk.startsWith('⟦')) {
-      const tag = chunk[1] === '^' ? 'sup' : 'sub';
+      const tag = { '^': 'sup', '_': 'sub', '!': 'strong' }[chunk[1]];
       return `<${tag}>${escaped(chunk.slice(2, -1))}</${tag}>`;
     }
     return escaped(chunk);
@@ -187,11 +187,21 @@ function matchesSource(question, source) {
   const category = source === 'doc' ? 'supplement' : source;
   return (question.publisherRefs ?? []).some(reference => reference.category === category);
 }
+function sourceLabel(question) {
+  if (question.source === 'quiz') return `補充測驗卷第 ${question.unit.split('-')[0]} 回`;
+  const category = question.publisherRefs?.[0]?.category;
+  return publisherSources[category] ?? sources[question.source];
+}
 function availableSources(chapter) {
   const prefix = chapter + '-';
   const labels = state.publisherChapters[chapter] ? publisherSources : sources;
-  return Object.fromEntries(Object.entries(labels).filter(([key]) =>
-    state.bank.some(q => matchesSource(q, key) && q.unit.startsWith(prefix))));
+  const available = {};
+  for (const [key, label] of Object.entries(labels)) {
+    if (state.bank.some(q => matchesSource(q, key) && q.unit.startsWith(prefix))) {
+      available[key] = key === 'quiz' ? `補充測驗卷第 ${chapter} 回` : label;
+    }
+  }
+  return available;
 }
 function filterQuestions() {
   return state.bank.filter(q => state.selected.has(q.unit) &&
@@ -307,7 +317,7 @@ function practiceView(focus) {
   draw(`<section class="page reading panel">
     <div class="progress-top"><span class="tag">${escaped(sectionLabel(q.unit))}</span><span class="count-line">第 ${index + 1}／${items.length} 題</span></div>
     <progress value="${index + 1}" max="${items.length}" aria-label="練習進度"></progress>
-    <div class="meta">${escaped(sources[q.source])} · ${escaped(q.label)} · ${types[q.type]}</div>
+    <div class="meta">${escaped(sourceLabel(q))} · ${escaped(q.label)} · ${types[q.type]}</div>
     ${context(q)}
     <h1 class="prompt" tabindex="-1">${rich(q.prompt)}</h1>
     <form id="answer-form">${entry(q, response)}</form>
@@ -349,7 +359,8 @@ const choicesOnly = value => /^(?:\(?[A-E]\)?[、,，.．\s]*)+$/i.test(value.tr
 function normalize(value) {
   let clean = value.normalize('NFKC').trim().toLowerCase()
     .replace(/[−–－]/g, '-').replace(/[＊*·]/g, '×')
-    .replace(/(\d)\s*[x×]\s*(?=10)/g, '$1×').replace(/\s+/g, '');
+    .replace(/(\d)\s*[x×]\s*(?=10)/g, '$1×').replace(/\s+/g, '')
+    .replace(/√(\d+)|√\((\d+)\)/g, (_, plain, wrapped) => `sqrt(${plain ?? wrapped})`);
   clean = clean.replace(/^(\(?-?\d+(?:\.\d+)?\)?)\s*(?:m\/s2|kg\/m3|m\/s|km\/h|n|j|kg|℃|cm|m|s)$/i, '$1');
   if (choicesOnly(clean)) return [...clean.replace(/[^a-e]/g, '')].sort().join('');
   if (/^(?:[甲乙丙丁戊己庚辛][、,，]*)+$/.test(clean)) return [...clean.replace(/[、,，]/g, '')].sort().join('');
@@ -457,7 +468,7 @@ function wrongView(focus) {
     <div class="actions"><button class="btn" data-action="select-wrong">全選顯示題目</button><button class="btn" data-action="clear-wrong">清除勾選</button><span class="count-line" id="wrong-count"></span></div>
     <div class="actions"><button class="btn primary" data-action="pdf">下載 A4 PDF</button><button class="btn" data-action="retry-wrong">重做選取題目</button><label><input type="checkbox" id="solutions" checked> 附答案與詳解</label></div>
     <p id="export-status" class="note" role="status"></p>
-    ${visible.map(q => `<article class="wrong-item"><label class="subrow"><input type="checkbox" name="wrong" value="${q.id}" ${state.wrongSelected.has(q.id) ? 'checked' : ''}><span><strong>${escaped(sectionLabel(q.unit))}</strong> · ${escaped(q.label)}<br><span class="meta">${escaped(sources[q.source])} · 答錯 ${state.records[q.id].wrong} 次</span></span></label>
+    ${visible.map(q => `<article class="wrong-item"><label class="subrow"><input type="checkbox" name="wrong" value="${q.id}" ${state.wrongSelected.has(q.id) ? 'checked' : ''}><span><strong>${escaped(sectionLabel(q.unit))}</strong> · ${escaped(q.label)}<br><span class="meta">${escaped(sourceLabel(q))} · 答錯 ${state.records[q.id].wrong} 次</span></span></label>
       <details><summary>展開題目與詳解</summary><div class="detail">${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, { staticOnly: true })}</div>` : ''}${solution(q)}</div></details></article>`).join('') || '<p class="note">這一章沒有錯題。</p>'}`
       : '<p>目前沒有錯題。完成一次練習後，答錯的題目會出現在這裡。</p><a class="btn primary" href="#units">前往單元練習</a>'}
   </section>`, focus);
@@ -550,7 +561,7 @@ async function printBook(items, includeSolutions) {
   const area = document.createElement('section');
   area.id = 'printout';
   area.innerHTML = `<h1>物理 B 上 錯題本</h1><p>${items.length} 題 · ${new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei' }).format(new Date())}</p>` +
-    items.map((q, i) => `<article class="print-item"><h2>${i + 1}. ${escaped(sectionLabel(q.unit))}　${escaped(sources[q.source])}・${escaped(q.label)}</h2>
+    items.map((q, i) => `<article class="print-item"><h2>${i + 1}. ${escaped(sectionLabel(q.unit))}　${escaped(sourceLabel(q))}・${escaped(q.label)}</h2>
       ${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, { staticOnly: true })}</div>` : ''}${includeSolutions ? solution(q) : '<div class="worksheet-space"></div>'}</article>`).join('');
   document.querySelector('#printout')?.remove();
   document.body.append(area);
@@ -577,7 +588,7 @@ async function downloadBook() {
     ];
     for (const [index, q] of items.entries()) {
       const stack = [
-        { text: `${index + 1}. ${sectionLabel(q.unit)}　${sources[q.source]} · ${q.label}`, color: '#086b58', margin: [0, 0, 0, 4] }
+        { text: `${index + 1}. ${sectionLabel(q.unit)}　${sourceLabel(q)} · ${q.label}`, color: '#086b58', margin: [0, 0, 0, 4] }
       ];
       if (q.context) stack.push(...await pdfBlocks(q.context));
       stack.push(...await pdfBlocks(q.prompt));
@@ -724,8 +735,9 @@ setInterval(() => {
 try {
   const response = await fetch('./questions.json');
   if (!response.ok) throw new Error('bank');
-  const { questions, chapters, questionAliases, publisherChapters } = await response.json();
+  const { questions, archivedQuestions, chapters, questionAliases, publisherChapters } = await response.json();
   state.bank = questions;
+  state.archivedQuestions = archivedQuestions ?? [];
   state.chapters = chapters;
   state.questionAliases = new Map(Object.entries(questionAliases ?? {}));
   state.publisherChapters = publisherChapters ?? {};
