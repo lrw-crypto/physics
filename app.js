@@ -228,19 +228,20 @@ function start(questions, isWrong = false) {
   let items = questions;
   if (!isWrong && (state.order === 'random' || state.count !== 'all')) items = shuffled(items);
   if (!isWrong && state.count !== 'all') items = items.slice(0, Number(state.count));
-  state.run = { items, isWrong, index: 0, review: {}, submitted: null, right: 0, missed: [] };
+  const responses = items.map(() => ({ draft: null, submission: null }));
+  state.run = { items, responses, isWrong, index: 0 };
   go('practice');
 }
 function context(q) {
   return q.context ? `<div class="context">${rich(q.context)}</div>` : '';
 }
-function optionsHTML(q, submission, staticOnly = false) {
+function optionsHTML(q, { submission, draft, staticOnly = false } = {}) {
   return q.options.map((value, index) => {
     const letter = letters[index];
     if (staticOnly) return `<div><strong>(${letter})</strong> ${rich(value)}</div>`;
     const cls = submission && letter === q.answer ? 'right' :
       submission && submission.value === letter ? 'miss' : '';
-    return `<label class="option ${cls}"><input type="radio" name="option" value="${letter}" ${submission?.value === letter ? 'checked' : ''} ${submission ? 'disabled' : 'required'}><span class="letter">${letter}</span><span>${rich(value)}</span></label>`;
+    return `<label class="option ${cls}"><input type="radio" name="option" value="${letter}" ${(submission?.value ?? draft) === letter ? 'checked' : ''} ${submission ? 'disabled' : 'required'}><span class="letter">${letter}</span><span>${rich(value)}</span></label>`;
   }).join('');
 }
 function answerHTML(q) {
@@ -250,35 +251,42 @@ function answerHTML(q) {
 }
 function solution(q, submission) {
   const label = q.type === 'w' ? '參考答案與解析' : '答案與解析';
+  const result = submission?.correct === true ? '・答對了' :
+    submission?.correct === false ? (q.type === 'w' ? '・待複習' : '・再想一想') : '';
   return `<section class="feedback ${submission && submission.correct === false ? 'wrong' : ''}">
-    <h3>${label}${submission && q.type !== 'w' ? (submission.correct ? '・答對了' : '・再想一想') : ''}</h3>
+    <h3>${label}${result}</h3>
     ${q.type !== 'w' || q.answer ? `<div><strong>答案</strong>　${answerHTML(q)}</div>` : ''}
     <div class="explain">${rich(q.explanation)}</div>
   </section>`;
 }
-function entry(q, submission) {
-  if (q.type === 'c') return `<fieldset class="options" style="border:0;padding:0;margin:0"><legend class="sr">選擇一個答案</legend>${optionsHTML(q, submission)}</fieldset>`;
-  if (q.type === 'w') return `<label class="field">你的答案<textarea name="written" rows="4" maxlength="1000" ${submission ? 'readonly' : ''} placeholder="寫下答案或解題步驟">${escaped(submission?.value ?? '')}</textarea></label>`;
+function entry(q, { submission, draft }) {
+  const answer = submission?.value ?? draft;
+  if (q.type === 'c') return `<fieldset class="options" style="border:0;padding:0;margin:0"><legend class="sr">選擇一個答案</legend>${optionsHTML(q, { submission, draft })}</fieldset>`;
+  if (q.type === 'w') return `<label class="field">你的答案<textarea name="written" rows="4" maxlength="1000" ${submission ? 'readonly' : ''} placeholder="寫下答案或解題步驟">${escaped(answer ?? '')}</textarea></label>`;
   return `<div class="entry-grid">${q.answer.map((_, i) =>
-    `<label class="field">第 ${i + 1} 格<input name="blank" value="${escaped(submission?.value[i] || '')}" ${submission ? 'readonly' : 'required'} maxlength="128" autocomplete="off"></label>`).join('')}</div>${submission ? '' : '<p class="meta">依題目所列單位填答，可用 1/2、10^3、pi 或 sqrt(2) 輸入數學符號。</p>'}`;
+    `<label class="field">第 ${i + 1} 格<input name="blank" value="${escaped(answer?.[i] ?? '')}" ${submission ? 'readonly' : 'required'} maxlength="128" autocomplete="off"></label>`).join('')}</div>${submission ? '' : '<p class="meta">依題目所列單位填答，可用 1/2、10^3、pi 或 sqrt(2) 輸入數學符號。</p>'}`;
 }
 function practiceView(focus) {
   if (!state.run) return unitsView(focus);
-  const { items, index, submitted } = state.run;
+  const { items, index, responses } = state.run;
   const q = items[index];
+  const response = responses[index];
+  const { submission } = response;
+  const needsReview = q.type === 'w' && submission?.correct === null;
   draw(`<section class="page reading panel">
     <div class="progress-top"><span class="tag">${escaped(sectionLabel(q.unit))}</span><span class="count-line">第 ${index + 1}／${items.length} 題</span></div>
     <progress value="${index + 1}" max="${items.length}" aria-label="練習進度"></progress>
     <div class="meta">${escaped(sources[q.source])} · ${escaped(q.label)} · ${types[q.type]}</div>
     ${context(q)}
     <h1 class="prompt" tabindex="-1">${rich(q.prompt)}</h1>
-    <form id="answer-form">${entry(q, submitted)}
-    ${submitted ? '' : '<div class="actions"><button type="submit" class="btn primary">送出答案</button><button type="button" class="btn" data-action="skip">跳過</button></div>'}
-    </form>
-    ${submitted ? solution(q, submitted) : ''}
-    ${submitted ? `<div class="actions end">${q.type === 'w' ?
-      '<button class="btn" data-action="judge-wrong">答錯／待複習</button><button class="btn primary" data-action="judge-right">答對了</button>' :
-      `<button class="btn primary" data-action="next">${index === items.length - 1 ? '查看結果' : '下一題'}</button>`}</div>` : ''}
+    <form id="answer-form">${entry(q, response)}</form>
+    ${submission ? solution(q, submission) : ''}
+    <div class="actions question-actions">
+      <button type="button" class="btn" data-action="previous" ${index === 0 ? 'disabled' : ''}>上一題</button>
+      ${!submission ? '<button type="button" class="btn" data-action="next">跳過</button><button type="submit" form="answer-form" class="btn primary">送出答案</button>' :
+        needsReview ? '<button type="button" class="btn" data-action="judge-wrong">答錯／待複習</button><button type="button" class="btn primary" data-action="judge-right">答對了</button>' :
+          `<button type="button" class="btn primary" data-action="next">${index === items.length - 1 ? '查看結果' : '下一題'}</button>`}
+    </div>
   </section>`, focus);
 }
 const superscripts = '⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺';
@@ -352,54 +360,51 @@ function blankCorrect(value, expected) {
   ];
   return aliases.some(group => group.includes(actualText) && group.includes(normalize(expectedText)));
 }
-function submitAnswer(form) {
-  const run = state.run;
-  if (!run || run.submitted) return;
-  const q = run.items[run.index];
+function answerValue(q, form) {
   const fields = new FormData(form);
-  let answer;
+  if (q.type === 'c') return fields.get('option');
+  if (q.type === 'f') return fields.getAll('blank');
+  return fields.get('written');
+}
+function submitAnswer(form) {
+  const { items, index, responses } = state.run;
+  const response = responses[index];
+  if (response.submission) return;
+  const q = items[index];
+  const answer = answerValue(q, form);
   let correct = null;
   if (q.type === 'c') {
-    answer = fields.get('option');
     if (!answer) return;
     correct = answer === q.answer;
   } else if (q.type === 'f') {
-    answer = fields.getAll('blank');
     if (answer.some(a => !a.trim())) return;
     correct = answer.every((value, index) => blankCorrect(value, q.answer[index]));
   } else {
-    answer = fields.get('written');
     if (!answer?.trim()) { form.querySelector('textarea').setCustomValidity('請先輸入你的作答。'); form.reportValidity(); return; }
   }
-  run.submitted = { value: answer, correct };
-  if (correct !== null) score(q, correct);
+  response.submission = { value: answer, correct };
+  if (correct !== null) remember(q, correct);
   practiceView(false);
   app.querySelector('.feedback h3').setAttribute('tabindex', '-1');
   app.querySelector('.feedback h3').focus();
 }
-function score(q, correct) {
+function moveQuestion(offset) {
   const run = state.run;
-  if (correct) run.right++;
-  else run.missed.push(q.id);
-  run.review[q.id] = correct;
-  remember(q, correct);
-}
-function next(skip = false) {
-  const run = state.run;
-  if (!run) return;
-  if (skip) run.review[run.items[run.index].id] = null;
-  if (run.index + 1 === run.items.length) return go('result');
-  run.index++;
-  run.submitted = null;
+  const newIndex = run.index + offset;
+  if (newIndex < 0) return;
+  if (newIndex >= run.items.length) return go('result');
+  run.index = newIndex;
   practiceView(true);
 }
 function resultView(focus) {
   if (!state.run) return unitsView(focus);
-  const { items, right, missed, review, isWrong } = state.run;
+  const { items, responses, isWrong } = state.run;
+  const right = responses.filter(r => r.submission?.correct === true).length;
+  const missed = responses.filter(r => r.submission?.correct === false).length;
   draw(`<section class="page reading panel">
     ${heading('練習結果')}
-    <div class="totals"><div class="total"><strong>${right}</strong>答對</div><div class="total"><strong>${missed.length}</strong>答錯</div><div class="total"><strong>${items.length - Object.values(review).filter(x => x !== null).length}</strong>未作答</div></div>
-    <div class="actions"><a class="btn primary" href="#${isWrong ? 'wrong' : 'units'}">${isWrong ? '返回錯題本' : '返回單元'}</a><a class="btn" href="#wrong">查看錯題本</a></div>
+    <div class="totals"><div class="total"><strong>${right}</strong>答對</div><div class="total"><strong>${missed}</strong>答錯</div><div class="total"><strong>${items.length - right - missed}</strong>未作答</div></div>
+    <div class="actions"><a class="btn primary" href="#${isWrong ? 'wrong' : 'units'}">${isWrong ? '返回錯題本' : '返回單元'}</a><a class="btn" href="#practice">回看最後一題</a><a class="btn" href="#wrong">查看錯題本</a></div>
   </section>`, focus);
 }
 function visibleWrong() { return wrong().filter(q => !state.wrongChapter || q.unit.startsWith(state.wrongChapter + '-')); }
@@ -422,7 +427,7 @@ function wrongView(focus) {
     <div class="actions"><button class="btn primary" data-action="pdf">下載 A4 PDF</button><button class="btn" data-action="retry-wrong">重做選取題目</button><label><input type="checkbox" id="solutions" checked> 附答案與詳解</label></div>
     <p id="export-status" class="note" role="status"></p>
     ${visible.map(q => `<article class="wrong-item"><label class="subrow"><input type="checkbox" name="wrong" value="${q.id}" ${state.wrongSelected.has(q.id) ? 'checked' : ''}><span><strong>${escaped(sectionLabel(q.unit))}</strong> · ${escaped(q.label)}<br><span class="meta">${escaped(sources[q.source])} · 答錯 ${state.records[q.id].wrong} 次</span></span></label>
-      <details><summary>展開題目與詳解</summary><div class="detail">${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, null, true)}</div>` : ''}${solution(q)}</div></details></article>`).join('') || '<p class="note">這一章沒有錯題。</p>'}`
+      <details><summary>展開題目與詳解</summary><div class="detail">${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, { staticOnly: true })}</div>` : ''}${solution(q)}</div></details></article>`).join('') || '<p class="note">這一章沒有錯題。</p>'}`
       : '<p>目前沒有錯題。完成一次練習後，答錯的題目會出現在這裡。</p><a class="btn primary" href="#units">前往單元練習</a>'}
   </section>`, focus);
   refreshWrongControls();
@@ -515,7 +520,7 @@ async function printBook(items, includeSolutions) {
   area.id = 'printout';
   area.innerHTML = `<h1>物理 B 上 錯題本</h1><p>${items.length} 題 · ${new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei' }).format(new Date())}</p>` +
     items.map((q, i) => `<article class="print-item"><h2>${i + 1}. ${escaped(sectionLabel(q.unit))}　${escaped(sources[q.source])}・${escaped(q.label)}</h2>
-      ${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, null, true)}</div>` : ''}${includeSolutions ? solution(q) : '<div class="worksheet-space"></div>'}</article>`).join('');
+      ${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, { staticOnly: true })}</div>` : ''}${includeSolutions ? solution(q) : '<div class="worksheet-space"></div>'}</article>`).join('');
   document.querySelector('#printout')?.remove();
   document.body.append(area);
   await Promise.all([...area.querySelectorAll('img')].map(img => img.decode().catch(() => {})));
@@ -609,7 +614,12 @@ app.addEventListener('change', event => {
   if (id === 'mobile-chapter') setChapter(value);
 });
 app.addEventListener('input', event => {
-  if (event.target.name === 'written') event.target.setCustomValidity('');
+  const input = event.target;
+  if (input.form?.id !== 'answer-form') return;
+  if (input.name === 'written') input.setCustomValidity('');
+  const { items, index, responses } = state.run;
+  const response = responses[index];
+  if (!response.submission) response.draft = answerValue(items[index], input.form);
 });
 app.addEventListener('submit', event => {
   event.preventDefault();
@@ -635,16 +645,17 @@ app.addEventListener('click', event => {
       break;
     }
     case 'start': start(filterQuestions()); break;
-    case 'skip': next(true); break;
-    case 'next': next(); break;
+    case 'previous': moveQuestion(-1); break;
+    case 'next': moveQuestion(1); break;
     case 'judge-right':
     case 'judge-wrong': {
       const run = state.run;
-      if (!run?.submitted || run.submitted.correct !== null) break;
+      const submission = run.responses[run.index].submission;
+      if (submission?.correct !== null) break;
       const correct = action === 'judge-right';
-      run.submitted.correct = correct;
-      score(run.items[run.index], correct);
-      next();
+      submission.correct = correct;
+      remember(run.items[run.index], correct);
+      moveQuestion(1);
       break;
     }
     case 'select-wrong':

@@ -65,7 +65,7 @@ input[type=checkbox], input[type=radio] { accent-color: var(--accent); width: 1.
 .field, .count-line, .meta { color: var(--muted); font-size: .875rem; }
 .field > input, .field > select, textarea, .answer-input { border: 1px solid #bacfc8; border-radius: 9px; background: white; color: var(--ink); padding: 9px 11px; max-width: 100%; width: 100%; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.actions.end { justify-content: flex-end; }
+.question-actions [data-action="previous"] { margin-inline-end: auto; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 9px 16px; border: 1px solid #a8c9bf; border-radius: 8px; background: #fff; color: var(--accent); font-weight: 750; text-decoration: none; }
 .btn:hover { background: #edf8f2; }
 .primary { background: #08705c; border-color: #08705c; color: white; }
