@@ -4,7 +4,14 @@ const app = document.querySelector('#app');
 const nav = document.querySelector('#nav');
 const letters = 'ABCDE';
 const types = { c: '單選題', f: '填充題', w: '問答題' };
-const sources = { doc: '補充試題', book: '教師本第 1 章', guide: '教師本導覽' };
+const sources = {
+  doc: '補充試題', book: '教師本第 1 章', guide: '教師本導覽',
+  past: '歷屆試題', quiz: '補充測驗卷第 1 回'
+};
+const publisherSources = {
+  example: '範例練習', exercise: '課後習題', past: sources.past,
+  quiz: sources.quiz, doc: sources.doc, book: sources.book
+};
 const escaped = value => String(value ?? '').replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const read = (key, fallback, area = localStorage) => {
@@ -17,7 +24,7 @@ const store = (key, value, area = localStorage) => {
 };
 const state = {
   bank: [], chapters: [], selected: new Set(), wrongSelected: new Set(),
-  questionAliases: new Map(),
+  questionAliases: new Map(), publisherChapters: {},
   chapter: '1', source: '', type: '', order: 'original', count: 'all', wrongChapter: '',
   account: read('account', null, sessionStorage), loginMode: 'login',
   records: {}, run: null, status: '', sync: null
@@ -176,14 +183,26 @@ function rich(value) {
     return escaped(chunk);
   }).join('');
 }
+function matchesSource(question, source) {
+  if (!source || source === question.source) return true;
+  const category = source === 'doc' ? 'supplement' : source;
+  return (question.publisherRefs ?? []).some(reference => reference.category === category);
+}
+function availableSources(chapter) {
+  if (state.publisherChapters[chapter]) return publisherSources;
+  const prefix = chapter + '-';
+  return Object.fromEntries(Object.entries(sources).filter(([key]) =>
+    state.bank.some(q => q.source === key && q.unit.startsWith(prefix))));
+}
 function filterQuestions() {
   return state.bank.filter(q => state.selected.has(q.unit) &&
-    (!state.source || state.source === q.source) && (!state.type || state.type === q.type));
+    matchesSource(q, state.source) && (!state.type || state.type === q.type));
 }
 function radioStyle(active) { return active ? 'active' : ''; }
 function unitsView(focus) {
   const chapter = state.chapters.find(c => c.id === state.chapter);
   const chapterQs = state.bank.filter(q => q.unit.startsWith(chapter.id + '-'));
+  const publisher = state.publisherChapters[chapter.id];
   const option = (value, label, active) => `<option value="${value}" ${active === value ? 'selected' : ''}>${escaped(label)}</option>`;
   draw(`<section class="hero">
     <div class="hero-label">技高物理 B 上</div>
@@ -198,11 +217,12 @@ function unitsView(focus) {
     </aside>
     <section class="panel" aria-labelledby="chapter-title">
       <label class="field mobile-chapter">課本章節<select id="mobile-chapter">${state.chapters.map(c => option(c.id, `第 ${c.id} 章　${c.name}`, chapter.id)).join('')}</select></label>
-      <div class="section-head"><div><div class="tag">第 ${chapter.id} 章</div><h2 id="chapter-title">${escaped(chapter.name)}</h2></div>
+      <div class="section-head"><div><div class="tag">第 ${chapter.id} 章</div><h2 id="chapter-title">${escaped(chapter.name)}</h2>
+        ${publisher ? `<p class="count-line">${escaped(publisher.name)} 原始紀錄 ${publisher.references} 筆 · 去重後 ${chapterQs.length} 題</p>` : ''}</div>
       <button type="button" class="btn" data-action="toggle-sections">${chapter.sections.every(s => state.selected.has(s.id)) ? '取消全選' : '全選本章'}</button></div>
       <div class="subrows">${chapter.sections.map(s => `<label class="subrow"><input type="checkbox" name="section" value="${s.id}" ${state.selected.has(s.id) ? 'checked' : ''}><span><strong>${s.id}</strong>　${escaped(s.name)}</span><span class="meta">${chapterQs.filter(q => q.unit === s.id).length} 題</span></label>`).join('')}</div>
       <div class="filter-grid">
-        <label class="field">來源<select name="source">${option('', '全部來源', state.source)}${Object.entries(sources).map(([k, v]) => option(k, v, state.source)).join('')}</select></label>
+        <label class="field">來源<select name="source">${option('', '全部來源', state.source)}${Object.entries(availableSources(chapter.id)).map(([k, v]) => option(k, v, state.source)).join('')}</select></label>
         <label class="field">題型<select name="type">${option('', '全部題型', state.type)}${Object.entries(types).map(([k, v]) => option(k, v, state.type)).join('')}</select></label>
         <label class="field">題數<select name="count">${[['all', '全部題目'], ['10', '10 題'], ['20', '20 題'], ['30', '30 題']].map(([k, v]) => option(k, v, state.count)).join('')}</select></label>
       </div>
@@ -216,6 +236,7 @@ function unitsView(focus) {
 }
 function setChapter(id) {
   state.chapter = id;
+  if (state.source && !Object.hasOwn(availableSources(id), state.source)) state.source = '';
   state.selected = new Set(state.chapters.find(c => c.id === id).sections.map(s => s.id));
   unitsView(false);
 }
@@ -704,10 +725,11 @@ setInterval(() => {
 try {
   const response = await fetch('./questions.json');
   if (!response.ok) throw new Error('bank');
-  const { questions, chapters, questionAliases } = await response.json();
+  const { questions, chapters, questionAliases, publisherChapters } = await response.json();
   state.bank = questions;
   state.chapters = chapters;
   state.questionAliases = new Map(Object.entries(questionAliases ?? {}));
+  state.publisherChapters = publisherChapters ?? {};
   state.selected = new Set(chapters[0].sections.map(section => section.id));
   loadLocal();
   render();

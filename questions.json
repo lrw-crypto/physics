@@ -160,6 +160,26 @@
         "光學",
         "熱學",
         "量子力學"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 1,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "quiz",
+          "number": 2,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 2,
+          "unit": "1-1",
+          "type": "c"
+        }
       ]
     },
     {
@@ -176,6 +196,14 @@
         "物質間的交互作用",
         "物質與能量的關係",
         "社會變遷"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 2,
+          "unit": "1-1",
+          "type": "c"
+        }
       ]
     },
     {
@@ -192,6 +220,20 @@
         "克卜勒",
         "伽利略",
         "牛頓"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 3,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 7,
+          "unit": "1-1",
+          "type": "c"
+        }
       ]
     },
     {
@@ -208,6 +250,14 @@
         "哥白尼",
         "伽利略",
         "愛因斯坦"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 4,
+          "unit": "1-1",
+          "type": "c"
+        }
       ]
     },
     {
@@ -221,7 +271,27 @@
         "近代物理學"
       ],
       "explanation": "課本以約 1900 年為分界。古典物理包含力學、熱學、光學和電磁學，近代物理以相對論與量子力學為主要支柱。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 3,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 3,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "exercise",
+          "number": 1,
+          "unit": "1-1",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-c1",
@@ -237,7 +307,21 @@
       ],
       "answer": "B",
       "prompt": "哪一位科學家提倡「日心說」？",
-      "explanation": "哥白尼提出日心體系，讓地球與其他行星一同繞太陽運行。克卜勒後來由天文資料歸納了行星運動定律。"
+      "explanation": "哥白尼提出日心體系，讓地球與其他行星一同繞太陽運行。克卜勒後來由天文資料歸納了行星運動定律。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 5,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 1,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c3",
@@ -253,7 +337,15 @@
       ],
       "answer": "D",
       "prompt": "下列何者不屬於古典物理學？",
-      "explanation": "相對論屬於近代物理。"
+      "explanation": "相對論屬於近代物理。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 4,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c4",
@@ -269,7 +361,15 @@
       ],
       "answer": "A",
       "prompt": "最原始的物理學分支是",
-      "explanation": "人們很早便研究物體如何運動、受力與保持平衡，這些都是力學的課題。"
+      "explanation": "人們很早便研究物體如何運動、受力與保持平衡，這些都是力學的課題。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 5,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c5",
@@ -285,7 +385,15 @@
       ],
       "answer": "A",
       "prompt": "「地心說」的提倡者是",
-      "explanation": "托勒密整理並發展地心體系，認為地球居於中心。哥白尼則以日心模型解釋行星運動。"
+      "explanation": "托勒密整理並發展地心體系，認為地球居於中心。哥白尼則以日心模型解釋行星運動。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 6,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c7",
@@ -301,7 +409,15 @@
       ],
       "answer": "D",
       "prompt": "哪一位科學家總結了光的折射定律？",
-      "explanation": "司乃耳折射定律 n₁ sin θ₁＝n₂ sin θ₂，描述光線跨越介質時入射角和折射角的關係。"
+      "explanation": "司乃耳折射定律 n₁ sin θ₁＝n₂ sin θ₂，描述光線跨越介質時入射角和折射角的關係。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 9,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c8",
@@ -317,7 +433,15 @@
       ],
       "answer": "B",
       "prompt": "哪一位科學家發現電磁感應現象，進一步證實了電與磁現象的統一性？",
-      "explanation": "法拉第發現當穿過線圈的磁通量改變時，可產生感應電動勢。這是發電機等裝置的基本原理。"
+      "explanation": "法拉第發現當穿過線圈的磁通量改變時，可產生感應電動勢。這是發電機等裝置的基本原理。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 10,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c9",
@@ -333,7 +457,21 @@
       ],
       "answer": "D",
       "prompt": "哪一位科學家用一套方程組概括電磁規律，建立了電磁場理論，預測了光的電磁性質？",
-      "explanation": "馬克士威用電磁場方程統合電學與磁學，並導出電磁波，其傳播速率與光速相符。"
+      "explanation": "馬克士威用電磁場方程統合電學與磁學，並導出電磁波，其傳播速率與光速相符。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 6,
+          "unit": "1-1",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 11,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c10",
@@ -349,7 +487,159 @@
       ],
       "answer": "A",
       "prompt": "哪一位科學家提出了震撼物理界的新觀念「量子論」，他認為振盪子的能量以頻率決定的單位量子化，從而成功解決了黑體輻射問題？",
-      "explanation": "普朗克為解釋黑體輻射，引入能量量子假設。單一能量量子與頻率的關係為 E＝hf。"
+      "explanation": "普朗克為解釋黑體輻射，引入能量量子假設。單一能量量子與頻率的關係為 E＝hf。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 13,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c313",
+      "type": "c",
+      "source": "past",
+      "unit": "1-1",
+      "label": "第 1 題",
+      "options": [
+        "1800年",
+        "1850年",
+        "1900年",
+        "1950年"
+      ],
+      "answer": "C",
+      "prompt": "依據物理學的發展，可區分為古典物理與近代物理，若以年代劃分，大約是下列哪一年？",
+      "explanation": "約以西元 1900 年為分界。普朗克在 1900 年提出能量量子假設，與此後發展的相對論及量子力學同屬近代物理學的重要起點。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 1,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c323",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-1",
+      "label": "第 1 題",
+      "options": [
+        "生活",
+        "自然",
+        "社會",
+        "心理"
+      ],
+      "answer": "B",
+      "prompt": "「物理（physics）」一詞源自希臘文：",
+      "explanation": "Physics 源自希臘語，詞根 physis 的意思是自然。早期物理學也被稱為自然哲學。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 1,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c326",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-1",
+      "label": "第 4 題",
+      "options": [
+        "地球",
+        "月球",
+        "太陽",
+        "火星"
+      ],
+      "answer": "A",
+      "prompt": "古希臘哲學家亞里斯多德認為下列何者為宇宙中心？",
+      "explanation": "亞里斯多德採地心觀，認為地球靜止於宇宙中心，天體環繞地球。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 4,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c329",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-1",
+      "label": "第 7 題",
+      "options": [
+        "普朗克",
+        "楊格",
+        "牛頓",
+        "愛因斯坦"
+      ],
+      "answer": "D",
+      "prompt": "乙太是否存在的問題，是由哪一位科學家提出的「相對論」所闡明？",
+      "explanation": "愛因斯坦提出狹義相對論，將真空光速在各慣性參考系相同作為基本假設，電磁波傳播因而無須假設存在以太介質。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 7,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c350",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-1",
+      "label": "補充試題第 8 題",
+      "options": [
+        "冉福得",
+        "焦耳",
+        "波義耳",
+        "克羅尼格"
+      ],
+      "answer": "B",
+      "prompt": "哪一位科學家從實驗中驗證了熱是能量的一種形式？",
+      "explanation": "焦耳透過攪拌水等實驗，測得一定機械功與所產生熱量的換算關係，證實機械能可轉成熱。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 8,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c354",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-1",
+      "label": "補充試題第 12 題",
+      "options": [
+        "惠更斯",
+        "楊氏",
+        "牛頓",
+        "司乃耳"
+      ],
+      "answer": "C",
+      "prompt": "哪一位科學家提出了光的粒子說？",
+      "explanation": "牛頓提出光的微粒說。惠更斯提出波動說，楊氏的干涉實驗支持光的波動性。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 12,
+          "unit": "1-1",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "book-e1",
@@ -359,7 +649,15 @@
       "prompt": "4 ℃純水的密度為 1 g/cm³，相當於多少 kg/m³？\n{{img:book-e1.png}}",
       "answer": "1,000 kg/m³",
       "explanation": "1 g＝10⁻³ kg，1 cm³＝(10⁻² m)³＝10⁻⁶ m³。質量和體積分別換算後，密度是 10⁻³ ÷ 10⁻⁶＝10³ kg/m³。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "example",
+          "number": 3,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
     },
     {
       "id": "book-e2",
@@ -369,7 +667,15 @@
       "prompt": "水銀密度為 13.6 g/cm³，相當於多少 kg/m³？\n{{img:book-e2.png}}",
       "answer": "1.36×10⁴ kg/m³",
       "explanation": "每 1 g/cm³ 等於 1,000 kg/m³。13.6×1,000＝13,600 kg/m³。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "example",
+          "number": 1,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
     },
     {
       "id": "book-e3",
@@ -379,7 +685,15 @@
       "prompt": "某公車於公路上行駛，時速表顯示速率為 36 km/h，試求：\n(1) 此速率相當於多少 m/s？\n(2) 此速率與某短跑選手跑百米花 10 秒之平均速率相較如何？\n{{img:book-e3.png}}",
       "answer": "(1) 10 m/s；(2) 兩者速率相同。",
       "explanation": "36 km/h＝36,000 m ÷ 3,600 s＝10 m/s。選手的平均速率是 100 m ÷ 10 s＝10 m/s。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "example",
+          "number": 4,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
     },
     {
       "id": "book-e4",
@@ -389,7 +703,15 @@
       "prompt": "臺灣高鐵 700T 型列車，瞬間最快速率可達 315 km/h，此速率相當於多少 m/s？\n{{img:book-e4.png}}",
       "answer": "87.5 m/s",
       "explanation": "將公里換成公尺、將小時換成秒，315 km/h＝315,000 m ÷ 3,600 s＝87.5 m/s。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "example",
+          "number": 2,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
     },
     {
       "id": "book-c5",
@@ -405,6 +727,14 @@
         "面積",
         "密度",
         "速度"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 5,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -421,6 +751,14 @@
         "1 公斤等於體積 1 公升的純水在 1 大氣壓下、溫度為 0 ℃ 時的質量",
         "熱力學溫度單位以攝氏溫度 ℃ 表示",
         "時間單位以秒表示"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 6,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -437,6 +775,14 @@
         "6.4×10³",
         "4×10⁷",
         "4×10⁴"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 7,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -453,6 +799,14 @@
         "5.55×10⁻⁸",
         "5.55×10⁻⁷",
         "5.55×10⁻⁶"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 8,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -469,6 +823,14 @@
         "3×10⁴ 公里／秒",
         "3×10¹⁴ 微米／秒",
         "3×10¹⁶ 埃／秒"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 9,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -485,6 +847,14 @@
         "9",
         "90",
         "900"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 10,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -501,6 +871,14 @@
         "每一太陽日不一定相等",
         "太陽日是指地球上某處連續兩次對準太陽所經歷的時間",
         "1 天分為 24 小時，1 小時分為 60 分鐘，1 分鐘分為 60 秒"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 11,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -517,6 +895,14 @@
         "30",
         "35",
         "40"
+      ],
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 12,
+          "unit": "1-2",
+          "type": "c"
+        }
       ]
     },
     {
@@ -531,7 +917,21 @@
         "時間"
       ],
       "explanation": "位移和距離用長度描述，慣性由質量衡量，運動過程用時間描述。速度、加速度和力等量可由三者導出。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 10,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "exercise",
+          "number": 2,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c15",
@@ -549,7 +949,15 @@
         "莫耳"
       ],
       "explanation": "七個單位的符號依序是 m、kg、s、K、cd、A、mol。攝氏度可描述溫度，熱力學溫度的 SI 基本單位使用 K。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 3,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c16",
@@ -569,7 +977,15 @@
         "秒"
       ],
       "explanation": "MKS、CGS 和 FPS 的縮寫分別對應 meter–kilogram–second、centimeter–gram–second 和 foot–pound–second。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 4,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c17",
@@ -583,7 +999,27 @@
         "7.5"
       ],
       "explanation": "赤道到北極為 10⁷ m，地球一周約為這段距離的 4 倍。光一秒走 3×10⁸ m，除以每圈 4×10⁷ m，約為 7.5 圈。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 2,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "quiz",
+          "number": 13,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "exercise",
+          "number": 5,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c18",
@@ -600,7 +1036,33 @@
         "10⁻¹⁰"
       ],
       "explanation": "kilo、centi、milli、micro 和 nano 對應 10³、10⁻²、10⁻³、10⁻⁶ 和 10⁻⁹ 倍。1 Å 為 0.1 nm，即 10⁻¹⁰ m。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 14,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 25,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 26,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "exercise",
+          "number": 6,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c19",
@@ -613,7 +1075,15 @@
         "98"
       ],
       "explanation": "身高為 6×12＋6＝78 吋，78×2.54＝198.12 cm。體重換算為 216×0.454＝98.064 kg。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 7,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "book-c20",
@@ -626,7 +1096,15 @@
         "400"
       ],
       "explanation": "體積為 25×8×2＝400 m³。取水密度為 1,000 kg/m³，則質量為 400,000 kg＝400 公噸。",
-      "source": "book"
+      "source": "book",
+      "publisherRefs": [
+        {
+          "category": "exercise",
+          "number": 8,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-c11",
@@ -642,7 +1120,15 @@
       ],
       "answer": "C",
       "prompt": "下列何者不是物理量中的基本量？",
-      "explanation": "基本量包括長度、質量、時間、溫度、光度、電流、物質量。"
+      "explanation": "基本量包括長度、質量、時間、溫度、光度、電流、物質量。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 15,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c12",
@@ -658,23 +1144,15 @@
       ],
       "answer": "A",
       "prompt": "依國際單位系統，長度的基本單位為公尺，1 公尺的標準最初曾被定義為「由北極經巴黎到赤道的子午線（經線），其長度的一千萬分之一」，根據這個標準，試問地球的直徑約為多少公尺？",
-      "explanation": "赤道到北極約 10⁷ m，完整子午線長約 4×10⁷ m。圓周長除以 π 得直徑，約為 1.27×10⁷ m，最接近選項 A。"
-    },
-    {
-      "id": "doc-c13",
-      "type": "c",
-      "source": "doc",
-      "unit": "1-2",
-      "label": "單選第 13 題",
-      "options": [
-        "10⟦^–6⟧ 公尺",
-        "10⟦^–8⟧公尺",
-        "10⟦^–10⟧公尺",
-        "10⟦^–12⟧ 公尺"
-      ],
-      "answer": "C",
-      "prompt": "可見光的波長甚短，常以另一符號為「埃」（Å）的單位表示之，1 埃（Å）定義為：",
-      "explanation": "1埃＝10⟦^–10⟧公尺。"
+      "explanation": "赤道到北極約 10⁷ m，完整子午線長約 4×10⁷ m。圓周長除以 π 得直徑，約為 1.27×10⁷ m，最接近選項 A。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 24,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c14",
@@ -690,7 +1168,15 @@
       ],
       "answer": "D",
       "prompt": "4000 μm 等於多少 m？",
-      "explanation": "微米是 10⁻⁶ m。4000 μm＝4000×10⁻⁶ m＝4×10⁻³ m。"
+      "explanation": "微米是 10⁻⁶ m。4000 μm＝4000×10⁻⁶ m＝4×10⁻³ m。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 29,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c15",
@@ -706,7 +1192,15 @@
       ],
       "answer": "B",
       "prompt": "光年為什麼的單位？",
-      "explanation": "1光年是光走1年的距離，故為長度單位。"
+      "explanation": "1光年是光走1年的距離，故為長度單位。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 31,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c16",
@@ -722,7 +1216,15 @@
       ],
       "answer": "B",
       "prompt": "科學上長度單位曾以什麼為發光波長之1650763.73倍為一米？",
-      "explanation": "科學上曾以氪發光波長的1650763.73倍為一米。"
+      "explanation": "科學上曾以氪發光波長的1650763.73倍為一米。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 32,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c17",
@@ -738,7 +1240,15 @@
       ],
       "answer": "A",
       "prompt": "一名飆車族騎車速率可達108公里/小時，此速度相當於多少公尺／秒？",
-      "explanation": "108 km/h＝108,000 m ÷ 3,600 s＝30 m/s。"
+      "explanation": "108 km/h＝108,000 m ÷ 3,600 s＝30 m/s。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 33,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c18",
@@ -754,7 +1264,15 @@
       ],
       "answer": "C",
       "prompt": "一名飆車族騎車速率可達108公里／小時，此人每分鐘騎多少公里？",
-      "explanation": "30公尺／秒即每秒騎30公尺，則每分鐘騎30 60＝1800公尺＝1.8公里。"
+      "explanation": "30公尺／秒即每秒騎30公尺，則每分鐘騎30 60＝1800公尺＝1.8公里。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 34,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c19",
@@ -770,7 +1288,15 @@
       ],
       "answer": "B",
       "prompt": "臺灣高鐵之列車，其速率最快可達300公里／小時，此速率相當於若干公尺／秒？",
-      "explanation": "將 km/h 換算為 m/s，可除以 3.6。300÷3.6≈83.3 m/s。"
+      "explanation": "將 km/h 換算為 m/s，可除以 3.6。300÷3.6≈83.3 m/s。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 35,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c20",
@@ -786,7 +1312,15 @@
       ],
       "answer": "D",
       "prompt": "大多數的原子半徑約為 1 埃（1Å＝10⟦^－10⟧ m），將原子覆蓋在 1 平方公寸的表面所需的原子數為多少個？",
-      "explanation": "1 公寸是 0.1 m。以原子直徑約 2×10⁻¹⁰ m 估算，每邊可排 5×10⁸ 顆，平方得約 2.5×10¹⁷ 顆。原卷 D 為 10¹⁸，已將此選項改為按題目數值估算的結果。"
+      "explanation": "1 公寸是 0.1 m。以原子直徑約 2×10⁻¹⁰ m 估算，每邊可排 5×10⁸ 顆，平方得約 2.5×10¹⁷ 顆。原卷 D 為 10¹⁸，已將此選項改為按題目數值估算的結果。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 38,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-f1",
@@ -799,7 +1333,15 @@
         "丙、己、庚、辛"
       ],
       "prompt": "(甲) 時間 (乙)長度 (丙)重量 (丁)溫度 (戊)光度 (己)電量 (庚)速度 (辛)密度，以上屬於基本量的是{{blank:1}}；屬於導出量的是{{blank:2}}。",
-      "explanation": "基本量包括長度、質量、時間、溫度、光度、電流、物質量，共7個基本量。"
+      "explanation": "基本量包括長度、質量、時間、溫度、光度、電流、物質量，共7個基本量。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 1,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f2",
@@ -812,7 +1354,15 @@
         "甲、丙、丁、辛"
       ],
       "prompt": "(甲) 牛頓 (乙) 安培 (丙) 庫侖 (丁) 伏特 (戊) 千克 (己) 米 (庚) 燭光 (辛) 焦耳，以上屬於基本量所使用的單位是{{blank:1}}；屬於導出量所使用的單位是{{blank:2}}。",
-      "explanation": "基本量的 SI 單位包括安培（電流）、千克（質量）、米（長度）和燭光（光度）。牛頓、庫侖、伏特與焦耳都是可由基本單位組合出的導出單位。"
+      "explanation": "基本量的 SI 單位包括安培（電流）、千克（質量）、米（長度）和燭光（光度）。牛頓、庫侖、伏特與焦耳都是可由基本單位組合出的導出單位。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 2,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f3",
@@ -824,7 +1374,15 @@
         "10⟦^12⟧"
       ],
       "prompt": "1公里 = {{blank:1}}奈米。",
-      "explanation": "1 km＝10³ m，而 1 m＝10⁹ nm，所以 1 km＝10³×10⁹＝10¹² nm。"
+      "explanation": "1 km＝10³ m，而 1 m＝10⁹ nm，所以 1 km＝10³×10⁹＝10¹² nm。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 3,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f4",
@@ -836,7 +1394,15 @@
         "6 × 10⟦^–7⟧"
       ],
       "prompt": "600 nm = {{blank:1}} m。",
-      "explanation": "600 nm = 600 × 10⟦^–9⟧m = 6 × 10⟦^–7⟧ m。"
+      "explanation": "600 nm = 600 × 10⟦^–9⟧m = 6 × 10⟦^–7⟧ m。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 4,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f5",
@@ -848,7 +1414,15 @@
         "100"
       ],
       "prompt": "1 Å（埃）＝10⟦^－10⟧ 公尺，約等於一個氫原子的直徑大小，則 10 nm（奈米）的大小約為氫原子大小的{{blank:1}}倍？",
-      "explanation": "10 nm＝10×10⟦^－9⟧ m＝10⟦^－8⟧ m＝10⟦^－8⟧×10⟦^10⟧ Å＝100 Å＝100 個氫原子大小。"
+      "explanation": "10 nm＝10×10⟦^－9⟧ m＝10⟦^－8⟧ m＝10⟦^－8⟧×10⟦^10⟧ Å＝100 Å＝100 個氫原子大小。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 5,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f6",
@@ -860,7 +1434,15 @@
         "2.25×10⟦^8⟧"
       ],
       "prompt": "已知光在水中的速度為 8.10×10⟦^8⟧ km／hr，此速度亦可表示為{{blank:1}} m／s 。",
-      "explanation": "1 km＝1,000 m，1 h＝3,600 s。將原速率乘以 1,000/3,600，即 8.10×10⁸ ÷3.6＝2.25×10⁸ m/s。"
+      "explanation": "1 km＝1,000 m，1 h＝3,600 s。將原速率乘以 1,000/3,600，即 8.10×10⁸ ÷3.6＝2.25×10⁸ m/s。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 6,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f7",
@@ -873,7 +1455,15 @@
         "1.3.5.7.9.10.11.13."
       ],
       "prompt": "下列物理量中，(1)屬於「國際單位系統（SI）」中的基本量的是（只填代號即可）{{blank:1}}；　(2)屬於「SI」的導出量的是{{blank:2}}；　1.電量　2.發光強度　3.加速度　4.物質數量　5.力　6.溫度　7.電阻　8.時間　9.電壓　10.功率　11.密度　12.質量　13.能量　14.電流強度　15.長度。",
-      "explanation": "(2)「基本量」以外的物理量都是「導出量」。"
+      "explanation": "(2)「基本量」以外的物理量都是「導出量」。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 7,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f8",
@@ -885,7 +1475,15 @@
         "500"
       ],
       "prompt": "地球繞日公轉的平均軌道半徑稱為長度的1天文單位，其值為1.5×10¹¹m，已知光速c＝3×10⁸m/s，則陽光由太陽跑到地球需時為{{blank:1}} s。",
-      "explanation": "時間＝距離÷速率＝(1.5×10¹¹)÷(3×10⁸)＝500 s。"
+      "explanation": "時間＝距離÷速率＝(1.5×10¹¹)÷(3×10⁸)＝500 s。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 8,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f9",
@@ -898,7 +1496,15 @@
         "3. 8. 10. 14."
       ],
       "prompt": "下列物理量的單位中，(1)屬於「國際單位系統（SI）」中的基本量之單位的是（只填代號即可）{{blank:1}}；　(2)以 SI 基本單位直接組合表示的導出量之單位是{{blank:2}}；　1. cm　2. g　3. m/s　4. cm/s²　5. K　6. mol　7. cd　8. kg·m/s²　9. m　10. kg/m²　11. kg　12. ℃　13. A　14. m³　15. s。",
-      "explanation": "SI 基本單位為 K、mol、cd、m、kg、A、s。選項中的標準 SI 導出單位為 m/s、kg·m/s²、kg/m²、m³。cm、g、cm/s² 是比例換算單位，℃ 是攝氏溫度單位，在本題按原卷的標準組合分類。"
+      "explanation": "SI 基本單位為 K、mol、cd、m、kg、A、s。選項中的標準 SI 導出單位為 m/s、kg·m/s²、kg/m²、m³。cm、g、cm/s² 是比例換算單位，℃ 是攝氏溫度單位，在本題按原卷的標準組合分類。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 9,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-f10",
@@ -910,7 +1516,15 @@
         "10¹⁵"
       ],
       "prompt": "英文「mega」這個字頭表示10⁶倍，縮寫記號是「M」，1 Mm={{blank:1}}nm。",
-      "explanation": "mega（M）是 10⁶，nano（n）是 10⁻⁹。1 Mm＝10⁶ m，而 1 m＝10⁹ nm，所以 1 Mm＝10¹⁵ nm。"
+      "explanation": "mega（M）是 10⁶，nano（n）是 10⁻⁹。1 Mm＝10⁶ m，而 1 m＝10⁹ nm，所以 1 Mm＝10¹⁵ nm。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 10,
+          "unit": "1-2",
+          "type": "f"
+        }
+      ]
     },
     {
       "id": "doc-w1",
@@ -920,7 +1534,15 @@
       "label": "問答第 1 題",
       "answer": "140 m/s",
       "prompt": "子彈列車最快速率可達504公里／小時，此速率相當於若干公尺／秒？",
-      "explanation": "504 km/h＝504,000 m ÷ 3,600 s＝140 m/s。"
+      "explanation": "504 km/h＝504,000 m ÷ 3,600 s＝140 m/s。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 1,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
     },
     {
       "id": "doc-w2",
@@ -930,7 +1552,753 @@
       "label": "問答第 2 題",
       "answer": "450 元",
       "prompt": "汽油每公升30元，能走14公里，現以時速70公里行駛3小時，要花多少油錢？",
-      "explanation": "全程為 70×3＝210 km，需要 210÷14＝15 L 汽油，費用為 15×30＝450 元。"
+      "explanation": "全程為 70×3＝210 km，需要 210÷14＝15 L 汽油，費用為 15×30＝450 元。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 2,
+          "unit": "1-2",
+          "type": "w"
+        }
+      ]
+    },
+    {
+      "id": "doc-c315",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 3 題",
+      "options": [
+        "2.52",
+        "25.2",
+        "252",
+        "2520"
+      ],
+      "answer": "C",
+      "prompt": "政府經常推動人們洗澡時以淋浴代替浴缸泡澡，以達到節約用水的目的；阿明想確實理解浴缸泡一次澡所消耗的水量，於是以尺測量了他家長方體浴缸裝水的體積，長度為120 公分、寬度60 公分、水深35公分，則此浴缸內裝滿純水的質量約為多少公斤？",
+      "explanation": "浴缸裝水的體積是 120×60×35＝252,000 cm³。取純水密度為 1 g/cm³，水的質量約 252,000 g＝252 kg。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 3,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c316",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 4 題",
+      "options": [
+        "公分",
+        "公斤重",
+        "安培",
+        "℃"
+      ],
+      "answer": "C",
+      "prompt": "甲同學身高173公分、體重80公斤重，利用加熱器，通以1安培的電流，將水加熱，水溫最後升至50℃。則此敘述中之單位，何者為國際單位系統（SI）的基本單位？",
+      "explanation": "安培是電流的 SI 基本單位。長度和熱力學溫度的 SI 基本單位分別是公尺和克耳文。攝氏度可用於表達攝氏溫度，公斤重是力的單位。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 4,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c317",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 5 題",
+      "options": [
+        "2×10⁻³",
+        "2×10⁻⁶",
+        "2×10⁻⁹",
+        "2×10⁻¹²"
+      ],
+      "answer": "A",
+      "prompt": "台積電啟動2奈米製程研發，則2奈米相當於多少微米？",
+      "explanation": "1 微米＝1,000 奈米，所以 2 奈米＝2÷1,000＝2×10⁻³ 微米。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 5,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c318",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 6 題",
+      "options": [
+        "100",
+        "1,000",
+        "10,000",
+        "100,000"
+      ],
+      "answer": "C",
+      "prompt": "一條奈米碳管的長度為1×10⁻⁵公尺，相當於多少奈米？",
+      "explanation": "1 m＝10⁹ nm，所以 1×10⁻⁵ m＝1×10⁻⁵×10⁹ nm＝10⁴ nm。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 6,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c319",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 7 題",
+      "options": [
+        "72",
+        "36",
+        "24",
+        "10"
+      ],
+      "answer": "B",
+      "prompt": "某人跑步的速率為10公尺/秒，相當於多少公里/時？",
+      "explanation": "10 m/s 在一小時內可走 10×3,600＝36,000 m，等於 36 km，所以速率為 36 km/h。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 7,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c320",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 8 題",
+      "options": [
+        "6.328×10⁻⁸",
+        "6.328×10⁻⁷",
+        "6.328×10⁻⁶",
+        "6.328×10⁻⁵"
+      ],
+      "answer": "D",
+      "prompt": "紅色氦氖雷射的波長為632.8奈米，相當於多少公分？",
+      "explanation": "1 nm＝10⁻⁹ m＝10⁻⁷ cm。632.8 nm＝632.8×10⁻⁷ cm＝6.328×10⁻⁵ cm。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 8,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c321",
+      "type": "c",
+      "source": "past",
+      "unit": "1-2",
+      "label": "第 9 題",
+      "options": [
+        "1000",
+        "100",
+        "10",
+        "1"
+      ],
+      "answer": "B",
+      "prompt": "請問0.1微米等於多少奈米？（奈米=10–9m）",
+      "explanation": "1 μm＝1,000 nm，因此 0.1 μm＝0.1×1,000＝100 nm。",
+      "publisherRefs": [
+        {
+          "category": "past",
+          "number": 9,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c331",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 9 題",
+      "options": [
+        "共有七個基本單位",
+        "溫度的單位為℃",
+        "安培為其基本單位",
+        "質量的單位為公斤"
+      ],
+      "answer": "B",
+      "prompt": "關於國際單位系統（SI）的基本量與基本單位，下列敘述何者錯誤？",
+      "explanation": "SI 有七個基本單位。熱力學溫度的基本單位是克耳文（K），電流是安培（A），質量是公斤（kg）。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 9,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c332",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 10 題",
+      "options": [
+        "安培",
+        "牛頓",
+        "公斤",
+        "公尺"
+      ],
+      "answer": "B",
+      "prompt": "下列哪一個單位不是基本量所使用的單位？",
+      "explanation": "牛頓是力的導出單位，1 N＝1 kg·m/s²。安培、公斤、公尺均是 SI 基本單位。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 10,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c333",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 11 題",
+      "options": [
+        "克",
+        "安培",
+        "燭光",
+        "莫耳"
+      ],
+      "answer": "A",
+      "prompt": "下列何者不是國際單位系統（SI）的基本單位？",
+      "explanation": "質量的 SI 基本單位是公斤（kg）。公克（g）是可使用的十進分量單位，1 g＝10⁻³ kg。其餘三個選項都是基本單位。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 11,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c334",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 12 題",
+      "options": [
+        "準確表達實驗測量結果",
+        "科學研究成果易於分享",
+        "科學研究成果快速流通",
+        "符合世界各地習俗"
+      ],
+      "answer": "D",
+      "prompt": "「公制單位系統」不具備下列哪一項些優點？",
+      "explanation": "使用共同的十進公制，能標準化量測和換算，便於交流與比較科學結果；各地的傳統度量衡和使用習慣仍可能不同。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 12,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c336",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 14 題",
+      "options": [
+        "公尺",
+        "十分之一",
+        "百分之一",
+        "千分之一"
+      ],
+      "answer": "D",
+      "prompt": "在長度單位mm中，第一個m代表何種意義？",
+      "explanation": "mm 的第一個 m 是毫（milli）字首，代表 10⁻³；第二個 m 是公尺的符號。因此 1 mm＝10⁻³ m。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 14,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c338",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 16 題",
+      "options": [
+        "1.8×10⁻³",
+        "1.8×10⁻⁶",
+        "1.8×10⁻⁷",
+        "1.8×10⁻⁹"
+      ],
+      "answer": "C",
+      "prompt": "科學園區半導體工廠的製程技術為0.18微米，相當於多少公尺？",
+      "explanation": "1 μm＝10⁻⁶ m。0.18 μm＝0.18×10⁻⁶ m＝1.8×10⁻⁷ m。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 16,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c339",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 17 題",
+      "options": [
+        "6.6×10³",
+        "6.6×10⁷",
+        "6.6×10⁻³",
+        "6.6×10⁻⁷"
+      ],
+      "answer": "D",
+      "prompt": "可見光之波長，常用Å表示，若有一可見光之波長為6600 Å，則其相當於多少公尺？",
+      "explanation": "1 Å＝10⁻¹⁰ m，所以 6600 Å＝6600×10⁻¹⁰ m＝6.6×10⁻⁷ m。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 17,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c341",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 19 題",
+      "options": [
+        "54",
+        "36",
+        "108",
+        "92"
+      ],
+      "answer": "C",
+      "prompt": "速度30公尺／秒，相當於多少公里／小時？",
+      "explanation": "1 m/s＝3.6 km/h，因此 30 m/s＝30×3.6＝108 km/h。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 19,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c342",
+      "type": "c",
+      "source": "quiz",
+      "unit": "1-2",
+      "label": "第 20 題",
+      "options": [
+        "0.6",
+        "6",
+        "6×10²",
+        "6×10³"
+      ],
+      "answer": "C",
+      "prompt": "某木塊的密度0.6公克／公分³，若以SI制表示，約合多少公斤／公尺³？",
+      "explanation": "1 g＝10⁻³ kg，1 cm³＝10⁻⁶ m³，因此 1 g/cm³＝10³ kg/m³。0.6 g/cm³＝600 kg/m³。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 20,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c358",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 16 題",
+      "options": [
+        "重量",
+        "長度",
+        "時間",
+        "溫度"
+      ],
+      "answer": "A",
+      "prompt": "下列物理量，何者非為基本物理量？",
+      "explanation": "重量是一種力，可寫作質量乘重力加速度；因此重量是導出量。長度、時間和熱力學溫度均為 SI 基本量。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 8,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 16,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c359",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 17 題",
+      "options": [
+        "溫度",
+        "力",
+        "電壓",
+        "體積"
+      ],
+      "answer": "A",
+      "prompt": "下列物理量，何者為基本量？",
+      "explanation": "熱力學溫度是 SI 的七個基本量之一。力、電壓和體積均可由基本量或其他導出量組合而來。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 17,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c360",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 18 題",
+      "options": [
+        "3",
+        "5",
+        "7",
+        "9"
+      ],
+      "answer": "C",
+      "prompt": "SI 單位系統中共有幾個基本量？",
+      "explanation": "SI 七個基本量為長度、質量、時間、電流、熱力學溫度、物質量和發光強度（光度）。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 18,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c361",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 19 題",
+      "options": [
+        "質量",
+        "電流",
+        "密度",
+        "光度"
+      ],
+      "answer": "C",
+      "prompt": "下列何者不屬於 SI 制中的基本物理量？",
+      "explanation": "密度是質量除以體積，單位是 kg/m³，屬導出量。質量、電流與光度屬基本量。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 19,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c362",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 20 題",
+      "options": [
+        "焦耳",
+        "牛頓",
+        "瓦特",
+        "克耳文"
+      ],
+      "answer": "D",
+      "prompt": "下列單位中何者為基本量所使用的單位？",
+      "explanation": "克耳文（K）是熱力學溫度的 SI 基本單位。焦耳、牛頓和瓦特分別是能量、力和功率的導出單位。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 20,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c363",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 21 題",
+      "options": [
+        "伏特是電壓的單位",
+        "牛頓是力的單位",
+        "公分是長度的單位",
+        "卡是溫度的單位"
+      ],
+      "answer": "D",
+      "prompt": "下列有關物理單位的陳述，何者錯誤？",
+      "explanation": "卡（cal）是能量單位，可用於熱量。溫度可使用克耳文或攝氏度表示。伏特、牛頓、公分分別可表示電壓、力和長度。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 21,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c364",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 22 題",
+      "options": [
+        "能量為一個基本量，其 SI 單位為焦耳",
+        "在力學上最常用的三個基本量為長度、時間及物質數量",
+        "加速度的單位乃藉由長度與時間兩個基本量所導出",
+        "SI 的溫度單位是華氏（℉）"
+      ],
+      "answer": "C",
+      "prompt": "下列有關「國際單位系統」的敘述，何者正確？",
+      "explanation": "加速度單位 m/s² 由長度與時間基本單位組成。能量是導出量，力學三個常用基本量是長度、質量與時間，熱力學溫度用克耳文。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 22,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c365",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 23 題",
+      "options": [
+        "以手臂長度為 1 公尺",
+        "光在真空中於 299792458 分之 1 秒所走的距離為 1 公尺",
+        "以鉑銥合金公尺原器為 1 公尺",
+        "以子午線長度的四千萬分之一為 1 公尺"
+      ],
+      "answer": "B",
+      "prompt": "目前所採用的長度定義，係以何種方式來標定？",
+      "explanation": "真空光速定為 299,792,458 m/s。依此，光在真空中 1/299,792,458 秒所走的距離為 1 m。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 18,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 23,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c369",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 27 題",
+      "options": [
+        "10⁻¹",
+        "10",
+        "10⁻¹⁹",
+        "10¹⁹"
+      ],
+      "answer": "A",
+      "prompt": "1埃(Å)為10⁻¹⁰公尺，1奈米(nm)則為10⁻⁹公尺，試問1埃為多少奈米？",
+      "explanation": "1 Å＝10⁻¹⁰ m；1 nm＝10⁻⁹ m。相除得 1 Å＝10⁻¹ nm＝0.1 nm。",
+      "publisherRefs": [
+        {
+          "category": "quiz",
+          "number": 15,
+          "unit": "1-2",
+          "type": "c"
+        },
+        {
+          "category": "supplement",
+          "number": 27,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c370",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 28 題",
+      "options": [
+        "10³",
+        "10⁶",
+        "10¹⁰",
+        "10¹³"
+      ],
+      "answer": "D",
+      "prompt": "1公里等於多少埃？",
+      "explanation": "1 km＝10³ m，1 m＝10¹⁰ Å，相乘得 1 km＝10¹³ Å。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 28,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c372",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 30 題",
+      "options": [
+        "10³",
+        "10⁶",
+        "10⁹",
+        "10¹²"
+      ],
+      "answer": "C",
+      "prompt": "試估計邊長為0.1毫米的正立方體中，約可含有直徑100奈米的「奈米顆粒」多少個？",
+      "explanation": "0.1 mm＝100,000 nm，除以 100 nm 得每邊可排約 1,000 顆。立方體三個方向相乘約為 10⁹ 顆。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 30,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c378",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 36 題",
+      "options": [
+        "10",
+        "100",
+        "1000",
+        "10⁴"
+      ],
+      "answer": "C",
+      "prompt": "在一大氣壓下，體積1 m³ 、溫度4℃純水質量為多少kg？",
+      "explanation": "4 ℃ 純水密度約為 1,000 kg/m³。質量等於密度乘體積，1 m³ 的水約為 1,000 kg。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 36,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c379",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 37 題",
+      "options": [
+        "單擺的等時性",
+        "地球運行的規則性",
+        "地球形狀的對稱性",
+        "光速的不變性"
+      ],
+      "answer": "D",
+      "prompt": "現行長度的基準是依照下列哪一種性質來訂定的？",
+      "explanation": "現行公尺定義以真空光速固定為 299,792,458 m/s 為基準，因此依據的是光速的不變性。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 37,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
+    },
+    {
+      "id": "doc-c381",
+      "type": "c",
+      "source": "doc",
+      "unit": "1-2",
+      "label": "補充試題第 39 題",
+      "options": [
+        "2200",
+        "3300",
+        "4400",
+        "6700"
+      ],
+      "answer": "D",
+      "prompt": "地球赤道上兩地時差為 4 小時，則兩地相距為多少km？（地球半徑 6400 km）",
+      "explanation": "地球自轉 24 小時一周，4 小時的經度差約為全周的 1/6。赤道上弧長約為 2π×6,400÷6≈6,700 km。",
+      "publisherRefs": [
+        {
+          "category": "supplement",
+          "number": 39,
+          "unit": "1-2",
+          "type": "c"
+        }
+      ]
     },
     {
       "id": "doc-c21",
@@ -5626,6 +6994,13 @@
     "doc-c193": "doc-f65",
     "doc-c206": "doc-f66",
     "doc-c207": "doc-f67",
-    "doc-c217": "doc-f72"
+    "doc-c217": "doc-f72",
+    "doc-c13": "book-c18"
+  },
+  "publisherChapters": {
+    "1": {
+      "name": "MOSME",
+      "references": 105
+    }
   }
 }
