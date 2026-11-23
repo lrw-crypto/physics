@@ -104,7 +104,13 @@ progress::-moz-progress-bar { background: #0b886d; }
 .feedback { background: #eef8f2; border: 1px solid #c6e5d7; border-radius: 11px; padding: 16px; margin-top: 15px; }
 .feedback.wrong { background: #fff4f2; border-color: #f2c8c3; }
 .feedback h3 { margin: 0 0 6px; }
+.feedback h4 { margin: 12px 0 4px; font-size: 1rem; }
 .explain { white-space: pre-line; overflow-wrap: anywhere; }
+.textbook-guide { border-top: 1px solid var(--line); margin-top: 12px; }
+.textbook-guide p { margin: 0 0 7px; }
+.textbook-refs { margin: 0; padding-left: 1.4rem; }
+.textbook-link { color: var(--accent); text-underline-offset: .18em; }
+.textbook-refs li + li { margin-top: 4px; }
 math { display: inline math; font-size: 1.05em; }
 math mtext { white-space: pre; }
 .wrong-item { border-top: 1px solid var(--line); padding: 12px 0; }

@@ -23,7 +23,7 @@ const store = (key, value, area = localStorage) => {
 };
 const state = {
   bank: [], archivedQuestions: [], chapters: [], selected: new Set(), wrongSelected: new Set(),
-  questionAliases: new Map(), publisherChapters: {},
+  questionAliases: new Map(), publisherChapters: {}, textbookTopics: {},
   chapter: '1', source: '', type: '', order: 'original', count: 'all', wrongChapter: '',
   account: read('account', null, sessionStorage), loginMode: 'login',
   records: {}, run: null, status: '', sync: null
@@ -34,6 +34,7 @@ const pending = name => read(pendingKey(name), []);
 const current = () => location.hash.slice(1) || 'units';
 const bySection = id => state.chapters.flatMap(c => c.sections).find(s => s.id === id);
 const sectionLabel = id => id + ' ' + bySection(id)?.name;
+const textbookFile = chapter => `assets/textbook/chapter-${chapter}.pdf`;
 const wrong = () => [...state.bank, ...state.archivedQuestions].filter(q => (state.records[q.id]?.wrong || 0) > 0);
 const recordCount = () => Object.values(state.records).reduce((totals, item) =>
   ({ right: totals.right + item.correct, wrong: totals.wrong + item.wrong }), { right: 0, wrong: 0 });
@@ -227,7 +228,8 @@ function unitsView(focus) {
     <section class="panel" aria-labelledby="chapter-title">
       <label class="field mobile-chapter">課本章節<select id="mobile-chapter">${state.chapters.map(c => option(c.id, `第 ${c.id} 章　${c.name}`, chapter.id)).join('')}</select></label>
       <div class="section-head"><div><div class="tag">第 ${chapter.id} 章</div><h2 id="chapter-title">${escaped(chapter.name)}</h2>
-        ${publisher?.exact ? `<p class="count-line">${escaped(publisher.name)} 原題 ${publisher.references} 題</p>` : ''}</div>
+        ${publisher?.exact ? `<p class="count-line">${escaped(publisher.name)} 原題 ${publisher.references} 題</p>` : ''}
+        ${Number.isInteger(chapter.textbookOffset) ? `<a class="textbook-link" href="${textbookFile(chapter.id)}" target="_blank" rel="noopener">開啟本章課本 PDF</a>` : ''}</div>
       <button type="button" class="btn" data-action="toggle-sections">${chapter.sections.every(s => state.selected.has(s.id)) ? '取消全選' : '全選本章'}</button></div>
       <div class="subrows">${chapter.sections.map(s => `<label class="subrow"><input type="checkbox" name="section" value="${s.id}" ${state.selected.has(s.id) ? 'checked' : ''}><span><strong>${s.id}</strong>　${escaped(s.name)}</span><span class="meta">${chapterQs.filter(q => q.unit === s.id).length} 題</span></label>`).join('')}</div>
       <div class="filter-grid">
@@ -290,14 +292,36 @@ function answerHTML(q) {
   if (q.type === 'f') return q.answer.map((a, i) => `(${i + 1}) ${rich(a)}`).join('　');
   return rich(q.answer || '見下方詳解。');
 }
+function textbookGuide(q) {
+  const topic = state.textbookTopics[q.textbook?.topic];
+  if (!topic) return null;
+  const makeLink = (unit, [first, last = first], label) => {
+    const chapter = state.chapters.find(c => unit.startsWith(c.id + '-'));
+    const filePage = first + chapter.textbookOffset;
+    const printedPages = first === last ? first : `${first}–${last}`;
+    const filePages = first === last ? filePage : `${filePage}–${last + chapter.textbookOffset}`;
+    return {
+      href: `${textbookFile(chapter.id)}#page=${filePage}`,
+      text: `${label}｜課本第 ${printedPages} 頁（PDF 第 ${filePages} 頁）`
+    };
+  };
+  const links = topic.pages.map(pages => makeLink(topic.unit, pages, topic.title));
+  if (q.textbook.exercisePage) links.unshift(makeLink(q.unit, [q.textbook.exercisePage], '課本同題'));
+  return { explanation: topic.explanation, links };
+}
 function solution(q, submission) {
   const label = q.type === 'w' ? '參考答案與解析' : '答案與解析';
   const result = submission?.correct === true ? '・答對了' :
     submission?.correct === false ? (q.type === 'w' ? '・待複習' : '・再想一想') : '';
+  const guide = textbookGuide(q);
   return `<section class="feedback ${submission && submission.correct === false ? 'wrong' : ''}">
     <h3>${label}${result}</h3>
     ${q.type !== 'w' || q.answer ? `<div><strong>答案</strong>　${answerHTML(q)}</div>` : ''}
-    <div class="explain">${rich(q.explanation)}</div>
+    <h4>詳解</h4>
+    <div class="explain">${rich(q.workedExplanation ?? q.explanation)}</div>
+    ${guide ? `<div class="textbook-guide"><h4>解題觀念與課本頁碼</h4>
+    <p class="explain">${rich(guide.explanation)}</p>
+    <ul class="textbook-refs">${guide.links.map(link => `<li><a class="textbook-link" href="${escaped(link.href)}" target="_blank" rel="noopener">${escaped(link.text)}</a></li>`).join('')}</ul></div>` : ''}
   </section>`;
 }
 function entry(q, { submission, draft }) {
@@ -598,11 +622,19 @@ async function downloadBook() {
       if (includeSolutions) {
         const answer = q.type === 'c' ? q.answer : q.type === 'f' ? q.answer.map((v, i) => `(${i + 1}) ${v}`).join('；') : q.answer;
         if (answer) stack.push(...await pdfBlocks('答案　' + answer));
-        stack.push(...await pdfBlocks('解析　' + q.explanation));
+        stack.push(...await pdfBlocks('詳解　' + (q.workedExplanation ?? q.explanation)));
+        const guide = textbookGuide(q);
+        if (guide) {
+          stack.push(...await pdfBlocks('解題觀念　' + guide.explanation));
+          for (const link of guide.links) {
+            stack.push({ text: link.text, link: new URL(link.href, location.href).href,
+              color: '#086b58', decoration: 'underline', margin: [0, 2, 0, 3] });
+          }
+        }
       } else {
         stack.push({ text: '作答　________________________________________', color: '#52676a', margin: [0, 5, 0, 0] });
       }
-      content.push({ stack, unbreakable: true, margin: [0, 0, 0, 13] });
+      content.push({ stack, unbreakable: !includeSolutions, margin: [0, 0, 0, 13] });
     }
     const doc = window.pdfMake.createPdf({
       pageSize: 'A4', pageMargins: [44, 42, 44, 46],
@@ -735,12 +767,13 @@ setInterval(() => {
 try {
   const response = await fetch('./questions.json');
   if (!response.ok) throw new Error('bank');
-  const { questions, archivedQuestions, chapters, questionAliases, publisherChapters } = await response.json();
+  const { questions, archivedQuestions, chapters, questionAliases, publisherChapters, textbookTopics } = await response.json();
   state.bank = questions;
   state.archivedQuestions = archivedQuestions ?? [];
   state.chapters = chapters;
   state.questionAliases = new Map(Object.entries(questionAliases ?? {}));
   state.publisherChapters = publisherChapters ?? {};
+  state.textbookTopics = textbookTopics ?? {};
   state.selected = new Set(chapters[0].sections.map(section => section.id));
   loadLocal();
   render();
