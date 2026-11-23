@@ -422,7 +422,7 @@ function wrongView(focus) {
     <div class="actions"><button class="btn primary" data-action="pdf">下載 A4 PDF</button><button class="btn" data-action="retry-wrong">重做選取題目</button><label><input type="checkbox" id="solutions" checked> 附答案與詳解</label></div>
     <p id="export-status" class="note" role="status"></p>
     ${visible.map(q => `<article class="wrong-item"><label class="subrow"><input type="checkbox" name="wrong" value="${q.id}" ${state.wrongSelected.has(q.id) ? 'checked' : ''}><span><strong>${escaped(sectionLabel(q.unit))}</strong> · ${escaped(q.label)}<br><span class="meta">${escaped(sources[q.source])} · 答錯 ${state.records[q.id].wrong} 次</span></span></label>
-      <details><summary>展開題目與詳解</summary><div class="detail">${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? optionsHTML(q, null, true) : ''}${solution(q)}</div></details></article>`).join('') || '<p class="note">這一章沒有錯題。</p>'}`
+      <details><summary>展開題目與詳解</summary><div class="detail">${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, null, true)}</div>` : ''}${solution(q)}</div></details></article>`).join('') || '<p class="note">這一章沒有錯題。</p>'}`
       : '<p>目前沒有錯題。完成一次練習後，答錯的題目會出現在這裡。</p><a class="btn primary" href="#units">前往單元練習</a>'}
   </section>`, focus);
   refreshWrongControls();
@@ -515,7 +515,7 @@ async function printBook(items, includeSolutions) {
   area.id = 'printout';
   area.innerHTML = `<h1>物理 B 上 錯題本</h1><p>${items.length} 題 · ${new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei' }).format(new Date())}</p>` +
     items.map((q, i) => `<article class="print-item"><h2>${i + 1}. ${escaped(sectionLabel(q.unit))}　${escaped(sources[q.source])}・${escaped(q.label)}</h2>
-      ${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? optionsHTML(q, null, true) : ''}${includeSolutions ? solution(q) : '<div class="worksheet-space"></div>'}</article>`).join('');
+      ${context(q)}<div class="prompt">${rich(q.prompt)}</div>${q.options ? `<div class="static-options">${optionsHTML(q, null, true)}</div>` : ''}${includeSolutions ? solution(q) : '<div class="worksheet-space"></div>'}</article>`).join('');
   document.querySelector('#printout')?.remove();
   document.body.append(area);
   await Promise.all([...area.querySelectorAll('img')].map(img => img.decode().catch(() => {})));
