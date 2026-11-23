@@ -260,7 +260,7 @@ function entry(q, submission) {
   if (q.type === 'c') return `<fieldset class="options" style="border:0;padding:0;margin:0"><legend class="sr">選擇一個答案</legend>${optionsHTML(q, submission)}</fieldset>`;
   if (q.type === 'w') return `<label class="field">你的答案<textarea name="written" rows="4" maxlength="1000" ${submission ? 'readonly' : ''} placeholder="寫下答案或解題步驟">${escaped(submission?.value ?? '')}</textarea></label>`;
   return `<div class="entry-grid">${q.answer.map((_, i) =>
-    `<label class="field">第 ${i + 1} 格<input name="blank" value="${escaped(submission?.value[i] || '')}" ${submission ? 'readonly' : 'required'} maxlength="128" autocomplete="off"></label>`).join('')}</div>`;
+    `<label class="field">第 ${i + 1} 格<input name="blank" value="${escaped(submission?.value[i] || '')}" ${submission ? 'readonly' : 'required'} maxlength="128" autocomplete="off"></label>`).join('')}</div>${submission ? '' : '<p class="meta">依題目所列單位填答，可用 1/2、10^3、pi 或 sqrt(2) 輸入數學符號。</p>'}`;
 }
 function practiceView(focus) {
   if (!state.run) return unitsView(focus);
@@ -329,6 +329,13 @@ function numeric(value) {
   if (pow) return Math.pow(10, Number(pow[1]));
   const frac = cleaned.match(/^([-+]?\d+(?:\.\d+)?)\/([-+]?\d+(?:\.\d+)?)$/);
   if (frac && +frac[2]) return Number(frac[1]) / Number(frac[2]);
+  const constant = cleaned.replace(/√/g, 'sqrt').replace(/π/g, 'pi');
+  const product = constant.match(/^([+-]?\d+(?:\.\d+)?)?[×*]?(?:(sqrt)\(?(\d+(?:\.\d+)?)\)?)?[×*]?(pi(?:\^2)?)?(?:\/([+-]?\d+(?:\.\d+)?))?$/);
+  if (product && (product[2] || product[4])) {
+    const [, factor, radical, radicand, pi, divisor] = product;
+    return Number(factor ?? 1) * (radical ? Math.sqrt(Number(radicand)) : 1) *
+      (pi === 'pi^2' ? Math.PI ** 2 : pi ? Math.PI : 1) / Number(divisor ?? 1);
+  }
   return NaN;
 }
 function blankCorrect(value, expected) {
@@ -336,12 +343,12 @@ function blankCorrect(value, expected) {
   const expectedText = textual(expected);
   if (actualText === normalize(expectedText)) return true;
   const a = numeric(value), b = numeric(expectedText);
-  if (Number.isFinite(a) && Number.isFinite(b)) return Math.abs(a - b) <= Math.max(Math.abs(b) * 0.001, 1e-12);
+  if (Number.isFinite(a) && Number.isFinite(b)) return Math.abs(a - b) <= (b === 0 ? 1e-12 : Math.abs(b) * 0.001);
   const aliases = [
     ['公尺', '米', 'm'], ['公斤', '千克', 'kg'], ['秒', 's'], ['公分', '厘米', 'cm'], ['公克', '克', 'g'],
     ['呎', '英尺', '英呎', 'ft'], ['磅', 'lb'], ['克耳文', '開爾文', '克氏', 'k'],
     ['燭光', '坎德拉', 'cd'], ['安培', 'a'], ['莫耳', '摩爾', 'mol'],
-    ['等速度運動', '等速度', '等速運動', '等速'], ['增大', '大', '變大'], ['減小', '小', '變小']
+    ['古典物理', '古典物理學'], ['近代物理', '近代物理學'], ['等速度運動', '等速度', '等速運動', '等速'], ['增大', '大', '變大'], ['減小', '小', '變小']
   ];
   return aliases.some(group => group.includes(actualText) && group.includes(normalize(expectedText)));
 }
