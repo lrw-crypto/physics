@@ -166,9 +166,18 @@ function math(source) {
   try { return window.katex.renderToString(source, { output: 'mathml', strict: 'ignore', throwOnError: true }); }
   catch { return escaped(source); }
 }
+function bookRef(chunk) {
+  const [, id, first, last] = chunk.match(/^\{\{book:(\d+):(\d+)(?:-(\d+))?\}\}$/);
+  const chapter = state.chapters.find(c => c.id === id);
+  const label = last ? `課本第 ${first}–${last} 頁` : `課本第 ${first} 頁`;
+  if (!Number.isInteger(chapter?.textbookOffset)) return escaped(label);
+  const href = `${textbookFile(id)}#page=${Number(first) + chapter.textbookOffset}`;
+  return `<a class="book-ref" href="${escaped(href)}" target="_blank" rel="noopener">${escaped(label)}</a>`;
+}
 function rich(value) {
-  return String(value ?? '').split(/(⟪[\s\S]*?⟫|\{\{(?:img:[^{}]+|blank:\d+)\}\}|⟦[_^!][^⟧]+⟧)/g).map(chunk => {
+  return String(value ?? '').split(/(⟪[\s\S]*?⟫|\{\{(?:img:[^{}]+|blank:\d+|book:\d+:\d+(?:-\d+)?)\}\}|⟦[_^!][^⟧]+⟧)/g).map(chunk => {
     if (chunk.startsWith('⟪')) return math(chunk.slice(1, -1));
+    if (chunk.startsWith('{{book:')) return bookRef(chunk);
     if (chunk.startsWith('{{img:')) {
       const img = chunk.slice(6, -2);
       return `<img class="figure" src="assets/figures/${escaped(img)}" alt="題目或解析所用圖示" decoding="async">`;
@@ -181,6 +190,51 @@ function rich(value) {
       return `<${tag}>${escaped(chunk.slice(2, -1))}</${tag}>`;
     }
     return escaped(chunk);
+  }).join('');
+}
+// Worked solutions are plain text with three block forms: 【heading】 lines,
+// pipe tables (| a | b |, second row |---|---|), and ordinary text lines.
+function tableCells(line) {
+  let body = line.trim().slice(1);
+  if (body.endsWith('|')) body = body.slice(0, -1);
+  const cells = [];
+  let cell = '';
+  let inMath = false;
+  for (const ch of body) {
+    if (ch === '⟪') inMath = true;
+    if (ch === '⟫') inMath = false;
+    if (ch === '|' && !inMath) { cells.push(cell.trim()); cell = ''; }
+    else cell += ch;
+  }
+  cells.push(cell.trim());
+  return cells;
+}
+const ruleRow = cells => cells.every(cell => /^:?-{2,}:?$/.test(cell));
+function solutionBlocks(value) {
+  const blocks = [];
+  for (const line of String(value ?? '').split('\n')) {
+    const kind = /^\s*\|/.test(line) ? 'table' : /^【[^】]+】$/.test(line.trim()) ? 'head' : 'text';
+    const last = blocks[blocks.length - 1];
+    if (last && last.kind === kind && kind !== 'head') last.lines.push(line);
+    else blocks.push({ kind, lines: [line] });
+  }
+  return blocks.map(block => {
+    if (block.kind === 'table') {
+      const [head = [], ...body] = block.lines.map(tableCells).filter(cells => !ruleRow(cells));
+      return { kind: 'table', head, body };
+    }
+    if (block.kind === 'head') return { kind: 'head', text: block.lines[0].trim() };
+    return { kind: 'text', text: block.lines.join('\n').replace(/^\s*\n|\n\s*$/g, '') };
+  }).filter(block => block.kind !== 'text' || block.text.trim());
+}
+const verdictClass = cell => cell.startsWith('○') ? ' class="ok"' : cell.startsWith('×') ? ' class="ng"' : '';
+function richSolution(value) {
+  return solutionBlocks(value).map(block => {
+    if (block.kind === 'head') return `<div class="sol-head">${escaped(block.text)}</div>`;
+    if (block.kind === 'text') return `<div class="sol-text">${rich(block.text)}</div>`;
+    const row = cells => cells.map(cell => `<td${verdictClass(cell)}>${rich(cell)}</td>`).join('');
+    return `<div class="table-wrap"><table class="sol-table"><thead><tr>${block.head.map(cell => `<th>${rich(cell)}</th>`).join('')}</tr></thead>` +
+      `<tbody>${block.body.map(cells => `<tr${cells.some(cell => cell.includes('（答案）')) ? ' class="answer-row"' : ''}>${row(cells)}</tr>`).join('')}</tbody></table></div>`;
   }).join('');
 }
 function matchesSource(question, source) {
@@ -318,7 +372,7 @@ function solution(q, submission) {
     <h3>${label}${result}</h3>
     ${q.type !== 'w' || q.answer ? `<div><strong>答案</strong>　${answerHTML(q)}</div>` : ''}
     <h4>詳解</h4>
-    <div class="explain">${rich(q.workedExplanation ?? q.explanation)}</div>
+    <div class="explain solution">${richSolution(q.workedExplanation ?? q.explanation)}</div>
     ${guide ? `<div class="textbook-guide"><h4>解題觀念與課本頁碼</h4>
     <p class="explain">${rich(guide.explanation)}</p>
     <ul class="textbook-refs">${guide.links.map(link => `<li><a class="textbook-link" href="${escaped(link.href)}" target="_blank" rel="noopener">${escaped(link.text)}</a></li>`).join('')}</ul></div>` : ''}
@@ -377,7 +431,8 @@ function textual(value) {
     }
     return kids.join('');
   };
-  return Array.from(node.content.childNodes, visit).join('');
+  return Array.from(node.content.childNodes, visit).join('')
+    .replace(/[  -​  ]/g, ' ').replace(/[∙]/g, '·').replace(/∼/g, '~');
 }
 const choicesOnly = value => /^(?:\(?[A-E]\)?[、,，.．\s]*)+$/i.test(value.trim());
 function normalize(value) {
@@ -581,6 +636,29 @@ async function pdfBlocks(content, options = {}) {
   }));
   return blocks.filter(Boolean);
 }
+async function pdfSolution(content) {
+  const out = [];
+  for (const block of solutionBlocks(content)) {
+    if (block.kind === 'head') out.push({ text: block.text, color: '#086b58', margin: [0, 6, 0, 2] });
+    else if (block.kind === 'text') out.push(...await pdfBlocks(block.text));
+    else {
+      const columns = block.head.length;
+      const cell = (value, header) => {
+        const text = textual(value.replace(/\{\{img:[^{}]+\}\}/g, '（見圖）')).trim();
+        const color = header ? '#103d35' : value.startsWith('○') ? '#086b58' : value.startsWith('×') ? '#a12f32' : undefined;
+        return { text, ...(color ? { color } : {}), ...(header ? { fillColor: '#e8f2ef' } : {}) };
+      };
+      const body = [block.head.map(value => cell(value, true)),
+        ...block.body.map(cells => Array.from({ length: columns }, (_, i) => cell(cells[i] ?? '', false)))];
+      out.push({
+        table: { headerRows: 1, widths: Array.from({ length: columns }, (_, i) => columns <= 3 && i < columns - 1 ? 'auto' : '*'), body },
+        layout: { hLineColor: () => '#cfe0db', vLineColor: () => '#cfe0db', paddingTop: () => 3, paddingBottom: () => 3 },
+        fontSize: 9.5, margin: [0, 3, 0, 5]
+      });
+    }
+  }
+  return out;
+}
 async function printBook(items, includeSolutions) {
   const area = document.createElement('section');
   area.id = 'printout';
@@ -622,7 +700,8 @@ async function downloadBook() {
       if (includeSolutions) {
         const answer = q.type === 'c' ? q.answer : q.type === 'f' ? q.answer.map((v, i) => `(${i + 1}) ${v}`).join('；') : q.answer;
         if (answer) stack.push(...await pdfBlocks('答案　' + answer));
-        stack.push(...await pdfBlocks('詳解　' + (q.workedExplanation ?? q.explanation)));
+        stack.push({ text: '詳解', color: '#086b58', margin: [0, 4, 0, 0] });
+        stack.push(...await pdfSolution(q.workedExplanation ?? q.explanation));
         const guide = textbookGuide(q);
         if (guide) {
           stack.push(...await pdfBlocks('解題觀念　' + guide.explanation));

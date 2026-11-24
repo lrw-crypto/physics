@@ -106,6 +106,18 @@ progress::-moz-progress-bar { background: #0b886d; }
 .feedback h3 { margin: 0 0 6px; }
 .feedback h4 { margin: 12px 0 4px; font-size: 1rem; }
 .explain { white-space: pre-line; overflow-wrap: anywhere; }
+.solution .sol-head { margin: 14px 0 4px; font-weight: 800; color: var(--accent); }
+.solution .sol-head:first-child { margin-top: 2px; }
+.solution .sol-text + .sol-text { margin-top: 6px; }
+.solution .figure { max-height: 340px; }
+.table-wrap { overflow-x: auto; margin: 6px 0 10px; }
+.sol-table { border-collapse: collapse; width: 100%; background: var(--paper); font-size: .95rem; white-space: normal; }
+.sol-table th, .sol-table td { border: 1px solid #cfe0db; padding: 6px 9px; text-align: left; vertical-align: top; }
+.sol-table th { background: #e3f1ec; font-weight: 750; white-space: nowrap; }
+.sol-table td.ok { color: var(--accent); font-weight: 750; white-space: nowrap; }
+.sol-table td.ng { color: var(--bad); font-weight: 750; white-space: nowrap; }
+.sol-table tr.answer-row td { background: #e9f7ef; }
+.book-ref { color: var(--accent); font-weight: 650; text-underline-offset: .18em; white-space: nowrap; }
 .textbook-guide { border-top: 1px solid var(--line); margin-top: 12px; }
 .textbook-guide p { margin: 0 0 7px; }
 .textbook-refs { margin: 0; padding-left: 1.4rem; }
@@ -148,6 +160,9 @@ math mtext { white-space: pre; }
   #printout .print-item h2 { margin: 0; font-size: 10pt; font-weight: 650; }
   #printout .prompt { font-size: 11pt; font-weight: 500; margin-block: 3pt; }
   #printout .figure { max-height: 50mm; }
+  #printout .sol-table { font-size: 9pt; }
+  #printout .sol-table th, #printout .sol-table td { padding: 2pt 4pt; }
+  #printout .print-item:has(.solution) { break-inside: auto; }
   #printout .context, #printout .feedback { background: transparent; padding: 5pt; }
   #printout .worksheet-space { height: 8mm; }
 }
